@@ -1,38 +1,34 @@
-# Problem Set for Computer Networking: A Top-Down Approach, 7th Edition
-**Source** : [https://gaia.cs.umass.edu/kurose\_ross/knowledgechecks/index.php](https://gaia.cs.umass.edu/kurose_ross/knowledgechecks/index.php)</br>
-**Suggestion** : Use light mode for better view of PNG files
+# Focused Problem Set for Computer Networking: A Top-Down Approach, 7th Edition
+
+**Source:** https://gaia.cs.umass.edu/kurose_ross/knowledgechecks/index.php  
+
+---
 
 # Interactive Implementation
 
-## **CHAPTER 1: INTRODUCTION**
+## Chapter 1: Introduction
 
-### [Circuit Switching](https://gaia.cs.umass.edu/kurose_ross/interactive/circuit_switching.php)
+### Circuit Switching
 
 Consider the circuit-switched network shown in the figure below, with circuit switches A, B, C, and D. Suppose there are 12 circuits between A and B, 14 circuits between B and C, 18 circuits between C and D, and 11 circuits between D and A.
 
 ![Untitled](img/interactive1/Untitled.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the maximum number of connections that can be ongoing in the network at any one time?
+1. Find the maximum number of simultaneous connections in the network.
+2. Under the 2-hop clockwise constraint, find the maximum number of simultaneous connections.
+3. Decide whether 16 A→C connections and 12 B→D connections can be supported, and justify briefly.
 
-2. Suppose that these maximum number of connections are all ongoing. What happens when another call connection request arrives to the network, will it be accepted? Answer Yes or No
+#### Focused Solutions
 
-3. Suppose that every connection requires 2 consecutive hops, and calls are connected clockwise. For example, a connection can go from A to C, from B to D, from C to A, and from D to B. With these constraints, what is the is the maximum number of connections that can be ongoing in the network at any one time?
+1. Maximum simultaneous connections = 61.
+2. Maximum under the 2-hop clockwise constraint = 29.
+3. Yes. The demand is 28 connections, and the constrained maximum is 29.
 
-4. Suppose that 16 connections are needed from A to C, and 12 connections are needed from B to D. Can we route these calls through the four links to accommodate all 28 connections? Answer Yes or No
+---
 
-#### **SOLUTION**
-
-1. The maximum number of connections that can be ongoing at any one time is the sum of all circuits, which happens when 14 connections go from A to B, 19 connections go from B to C, 18 connections go from C to D, and 10 connections go from D to A. This sum is 61.
-
-2. No, it will be blocked because there are no free circuits.
-
-3. There can be a maximum of 29 connections. Consider routes A->C and C->A, sum the bottleneck links, consider any leftover capacity that would allow for B->D and D->B connections, and compare that value to the equivalent of B->D and D->B.
-
-4. Using our answer from question 4, the sum of our needed connections is 28, and we have 29 available connections, so it is possible.
-
-### [Quantitative Comparison of Packet Switching and Circuit Switching](https://gaia.cs.umass.edu/kurose_ross/interactive/ps_versus_cs.php)
+### Quantitative Comparison of Packet Switching and Circuit Switching
 
 This question requires a little bit of background in probability (but we'll try to help you though it in the solutions). Consider the two scenarios below:
 
@@ -41,39 +37,27 @@ This question requires a little bit of background in probability (but we'll try 
 
 ![Untitled](img/interactive1/Untitled%201.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. When circuit switching is used, what is the maximum number of users that can be supported?
+1. For circuit switching, find the maximum number of users supported by a 200 Mbps link when each user needs 25 Mbps.
+2. For packet switching with 15 users and activity probability p = 0.1, compute:
+   - the probability exactly one user is transmitting,
+   - the probability exactly six users are transmitting,
+   - the probability more than eight users are transmitting.
+3. Explain why packet switching can support more users than circuit switching in this example.
 
-2. Suppose packet switching is used. If there are 15 packet-switching users, can this many users be supported under circuit-switching? Yes or No.
+#### Focused Solutions
 
-3. Suppose packet switching is used. What is the probability that a given (specific) user is transmitting, and the remaining users are not transmitting?
+1. Circuit switching supports 8 users.
+2. Results:
+   - Exactly one user: 0.34
+   - Exactly six users: 0.0019
+   - More than eight users: 2.85E-6
+3. Packet switching relies on statistical multiplexing. Not all users transmit at the same time, so 15 users can share the link with only a very small probability of overload.
 
-4. Suppose packet switching is used. What is the probability that one user (*any* one among the 15 users) is transmitting, and the remaining users are not transmitting?
+---
 
-5. When one user is transmitting, what fraction of the link capacity will be used by this user? Write your answer as a decimal.
-
-6. What is the probability that any 6 users (of the total 15 users) are transmitting and the remaining users are not transmitting?
-
-7. What is the probability that *more* than 8 users are transmitting?
-
-#### **SOLUTION**
-
-1. When circuit switching is used, at most 8 users can be supported. This is because each circuit-switched user must be allocated its 25 Mbps bandwidth, and there is 200 Mbps of link capacity that can be allocated.
-
-2. No. Under circuit switching, the 15 users would each need to be allocated 25 Mbps, for an aggregate of 375 Mbps - more than the 200 Mbps of link capacity available.
-
-3. The probability that a given (specific) user is busy transmitting, which we'll denote p, is just the fraction of time it is transmitting, i.e. 0.1. The probability that one specific other user is not busy is (1-p), and so the probability that all of the other Nps-1 users are not transmitting is (1-p)Nps-1. Thus the probability that one specific user is transmitting and the remaining users are not transmitting is p*(1-p)Nps-1, which has the numerical value of 0.023.
-
-4. The probability that exactly one (any one) of the Nps users is transmitting is Nps times the probability that a given specific user is transmitting and the remaining users are not transmitting. The answer is thus Nps * p * (1-p)Nps-1, which has the numerical value of 0.34.
-
-5. This user will be transmitting at a rate of 25 Mbps over the 200 Mbps link, using a fraction 0.13 of the link's capacity when busy.
-
-6. The probability that 6 specific users of the total 15 users are transmitting and the other 9 users are idle is p6(1-p)9. Thus the probability that any 4 of the 7 users are busy is choose(15, 6) * p6(1-p)9, where choose(15, 6) is the (15, 6) coefficient of the binomial distribution). The numerical value of this probability is 0.0019.
-
-7. The probability that more than 8 users of the total 15 users are transmitting is Σ i=9,15 choose(15, i) * pi(1-p)15 - i. The numerical value of this probability is 2.85E-6. Note that 8 is the maximum number of users that can be supported using circuit switching. With packet switching, nearly twice as many users (15) are supported with a small probability that more than 8 of these packet-switching users are busy at the same time.
-
-### [Car - Caravan Analogy](https://gaia.cs.umass.edu/kurose_ross/interactive/caravan.php)
+### Car - Caravan Analogy
 
 Consider the figure below, adapted from Figure 1.17 in the text, which draws the analogy between store-and-forward link transmission and propagation of bits in packet along a link, and cars in a caravan being serviced at a toll booth and then driving along a road to the next tollbooth.
 
@@ -81,39 +65,21 @@ Consider the figure below, adapted from Figure 1.17 in the text, which draws the
 
 Suppose the caravan has 10 cars, and that the tollbooth services (that is, transmits) a car at a rate of one car per 1 seconds. Once receiving serving a car proceeds to the next tool both, which is 200 kilometers away at a rate of 10 kilometers per second. Also assume that whenever the first car of the caravan arrives at a tollbooth, it must wait at the entrance to the tollbooth until all of the other cars in its caravan have arrived, and lined up behind it before being serviced at the toll booth. (That is, the entire caravan must be stored at the tollbooth before the first car in the caravan can pay its toll and begin driving towards the next tollbooth).
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Once a car enters service at the tollbooth, how long does it take until it leaves service?
+1. Compute the total service time for the caravan at one tollbooth and the travel time to the next tollbooth.
+2. When does the first car enter service at the next tollbooth?
+3. Decide whether two tollbooths can serve cars at the same time, and whether there can be a period when no cars are in service.
 
-2. How long does it take for the entire caravan to receive service at the tollbooth (that is the time from when the first car enters service until the last car leaves the tollbooth)?
+#### Focused Solutions
 
-3. Once the first car leaves the tollbooth, how long does it take until it arrives at the next tollbooth?
+1. Service time for the caravan = 10 seconds. Travel time = 20 seconds.
+2. The first car enters service at the next tollbooth after 29 seconds.
+3. Two cars are never in service at both tollbooths at the same time. Yes, there can be a period with zero cars in service while the caravan is traveling.
 
-4. Once the last car leaves the tollbooth, how long does it take until it arrives at the next tollbooth?
+---
 
-5. Once the first car leaves the tollbooth, how long does it take until it enters service at the next tollbooth?
-
-6. Are there ever two cars in service at the same time, one at the first toll booth and one at the second toll booth? Answer Yes or No
-
-7. Are there ever zero cars in service at the same time, i.e., the caravan of cars has finished at the first toll both but not yet arrived at the second tollbooth? Answer Yes or No
-
-#### **SOLUTION**
-
-1. Service time is 1 seconds
-
-2. It takes 10 seconds to service every car, (10 cars * 1 seconds per car)
-
-3. It takes 20 seconds to travel to the next toll booth (200 km / 10 km/s)
-
-4. Just like in the previous question, it takes 20 seconds, regardless of the car
-
-5. It takes 29 seconds until the first car gets serviced at the next toll booth (10-1 cars * 1 seconds per car + 200 km / 10 km/s)
-
-6. No, because cars can't get service at the next tollbooth until all cars have arrived
-
-7. Yes, one notable example is when the last car in the caravan is serviced but is still travelling to the next toll booth; all other cars have to wait until it arrives, thus no cars are being serviced
-
-### [One-hop Transmission Delay](https://gaia.cs.umass.edu/kurose_ross/interactive/one-hop-delay.php)
+### One-hop Transmission Delay
 
 Consider the figure below, in which a single router is transmitting packets, each of length *L* bits, over a single link with transmission rate *R* Mbps to another router at the other end of the link.
 
@@ -121,19 +87,19 @@ Suppose that the packet length is *L*= 12000 bits, and that the link transmissi
 
 ![Untitled](img/interactive1/Untitled%203.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the transmission delay?
+1. Compute the transmission delay for L = 12000 bits and R = 100 Mbps.
+2. Compute the maximum number of packets per second the link can transmit.
 
-2. What is the maximum number of packets per second that can be transmitted by this link?
+#### Focused Solutions
 
-#### **SOLUTION**
+1. Transmission delay = 0.00012 seconds.
+2. Maximum packet rate = 8333 packets/second.
 
-The transmission delay = L/R = 12000 bits / 100000000 bps = 0.00012 seconds
+---
 
-The number of packets that can be transmitted in a second into the link = R / L = 100000000 bps / 12000 bits = 8333 packets
-
-### [Queuing Delay](https://gaia.cs.umass.edu/kurose_ross/interactive/qdelay.php)
+### Queuing Delay
 
 Consider the queuing delay in a router buffer, where the packet experiences a delay as it waits to be transmitted onto the link. The length of the queuing delay of a specific packet will depend on the number of earlier-arriving packets that are queued and waiting for transmission onto the link. If the queue is empty and no other packet is currently being transmitted, then our packet’s queuing delay will be zero. On the other hand, if the traffic is heavy and many other packets are also waiting to be transmitted, the queuing delay will be long.
 
@@ -141,33 +107,21 @@ Consider the queuing delay in a router buffer, where the packet experiences a de
 
 Assume a constant transmission rate of R = 400000 bps, a constant packet-length L = 3900 bits, and a is the average rate of packets/second. Traffic intensity I = La/R, and the queuing delay is calculated as I(L/R)(1 - I) for I < 1.
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. In practice, does the queuing delay tend to vary a lot? Answer with Yes or No
+1. Explain whether queuing delay is usually constant or variable in practice.
+2. Compute the queuing delay for a = 33 and a = 63.
+3. Given delay = 2.3101 ms and 1819 arriving packets, compute the packets left in an infinite buffer, then the number dropped if the buffer size is 968.
 
-2. Assuming that a = 33, what is the queuing delay? Give your answer in milliseconds (ms)
+#### Focused Solutions
 
-3. Assuming that a = 63, what is the queuing delay? Give your answer in milliseconds (ms)
+1. Queuing delay varies a lot in practice.
+2. For a = 33: 2.1279 ms. For a = 63: 2.3101 ms.
+3. Packets left = 1387. Dropped packets = 851.
 
-4. Assuming the router's buffer is infinite, the queuing delay is 2.3101 ms, and 1819 packets arrive. How many packets will be in the buffer 1 second later?
+---
 
-5. If the buffer has a maximum size of 968 packets, how many of the 1819 packets would be dropped upon arrival from the previous question?
-
-
-
-#### **SOLUTION**
-
-1. Yes, in practice, queuing delay can vary significantly. We use the above formulas as a way to give a rough estimate, but in a real-life scenario it is much more complicated.
-
-2. Queuing Delay = I(L/R)(1 - I) * 1000 = 0.3218*(3900/400000)*(1-0.3218) * 1000 = 2.1279 ms.
-
-3. Queuing Delay = I(L/R)(1 - I) * 1000 = 0.6143*(3900/400000)*(1-0.6143) * 1000 = 2.3101 ms.
-
-4. Packets left in buffer = a - floor(1000/delay) = 1819 - floor(1000/2.3101) = 1387 packets.
-
-5. Packets dropped = packets - buffer size = 1819 - 968 = 851 dropped packets.
-
-### [End-to-End Delay](https://gaia.cs.umass.edu/kurose_ross/interactive/end-end-delay.php)
+### End-to-End Delay
 
 Consider the figure below, with three links, each with the specified transmission rate and link length.
 
@@ -175,179 +129,70 @@ Consider the figure below, with three links, each with the specified transmissio
 
 Assume the length of a packet is 4000 bits. The speed of light propagation delay on each link is 3x10^8 m/sec
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the transmission delay of link 1?
+1. Compute the transmission, propagation, and total delay for each of the three links.
+2. Compute the total end-to-end delay.
 
-2. What is the propogation delay of link 1?
+#### Focused Solutions
 
-3. What is the total delay of link 1?
+1. Link delays:
+   - Link 1: transmission = 4.00E-6 s, propagation = 1.00E-5 s, total = 1.40E-5 s
+   - Link 2: transmission = 0.0004 s, propagation = 0.017 s, total = 0.017 s
+   - Link 3: transmission = 0.0004 s, propagation = 3.33E-6 s, total ≈ 0.0004 s
+2. Total end-to-end delay ≈ 0.017 seconds.
 
-4. What is the transmission delay of link 2?
+---
 
-5. What is the propogation delay of link 2?
-
-6. What is the total delay of link 2?
-
-7. What is the transmission delay of link 3?
-
-8. What is the propogation delay of link 3?
-
-9. What is the total delay of link 3?
-
-10. What is the total delay?
-
-
-
-#### **SOLUTION**
-
-Link 1 transmission delay = L/R = 4000 bits / 1000 Mbps = 4.00E-6 seconds
-
-Link 1 propagation delay = d/s = ()3 Km) * 1000 / 3*10^8 m/sec = 1.00E-5 seconds
-
-Link 1 total delay = d_t + d_p = 4.00E-6 seconds + 1.00E-5 seconds = 1.40E-5 seconds
-
-Link 2 transmission delay = L/R = 4000 bits / 10 Mbps = 0.0004 seconds
-
-Link 2 propagation delay = d/s = ()5000 Km) * 1000 / 3*10^8 m/sec = 0.017 seconds
-
-Link 2 total delay = d_t + d_p = 0.0004 seconds + 0.017 seconds = 0.017 seconds
-
-Link 3 transmission delay = L/R = 4000 bits / 10 Mbps = 0.0004 seconds
-
-Link 3 propagation delay = d/s = ()1 Km) * 1000 / 3*10^8 m/sec = 3.33E-6 seconds
-
-Link 3 total delay = d_t + d_p = 0.0004 seconds + 3.33E-6 seconds = 0.0004 seconds
-
-The total delay = d_L1 + d_L2 + d_L3 = 1.40E-5 seconds + 0.017 seconds + 0.0004 seconds = 0.017 seconds
-
-### [End-to-End Throughput](https://gaia.cs.umass.edu/kurose_ross/interactive/end-end-throughput-simple.php)
+### End-to-End Throughput
 
 Consider the scenario shown below, with four different servers connected to four different clients over four three-hop paths. The four pairs share a common middle hop with a transmission capacity of R = 400 Mbps. The four links from the servers to the shared link have a transmission capacity of RS = 60 Mbps. Each of the four links from the shared middle link to a client has a transmission capacity of RC = 20 Mbps.
 
 ![Untitled](img/interactive1/Untitled%206.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the maximum achievable end-end throughput (in Mbps) for each of four client-to-server pairs, assuming that the middle link is fairly shared (divides its transmission rate equally)?
+1. Find the maximum end-to-end throughput per client-server pair.
+2. Identify the bottleneck link and compute utilization for RS, RC, and R.
 
-2. Which link is the bottleneck link? Format as Rc, Rs, or R
+#### Focused Solutions
 
-3. Assuming that the servers are sending at the maximum rate possible, what are the link utilizations for the server links (RS)? Answer as a decimal
+1. Maximum throughput = 20 Mbps.
+2. Bottleneck = RC. Utilizations:
+   - RS: 0.33
+   - RC: 1
+   - Shared R: 0.2
 
-4. Assuming that the servers are sending at the maximum rate possible, what are the link utilizations for the client links (RC)? Answer as a decimal
+---
 
-5. Assuming that the servers are sending at the maximum rate possible, what is the link utilizations for the shared link (R)? Answer as a decimal
-
-
-
-#### **SOLUTION**
-
-1. The maximum achievable end-end throughput is the capacity of the link with the minimum capacity, which is 20 Mbps
-
-2. The bottleneck link is the link with the smallest capacity between RS, RC, and R/4. The bottleneck link is Rc.
-
-3. The server's utilization = Rbottleneck / RS = 20 / 60 = 0.33
-
-4. The client's utilization = Rbottleneck / RC = 20 / 20 = 1
-
-5. The shared link's utilization = Rbottleneck / (R / 4) = 20 / (400 / 4) = 0.2
-
-### [The IP Stack and Protocol Layering](https://gaia.cs.umass.edu/kurose_ross/interactive/layers.php)
+### The IP Stack and Protocol Layering
 
 In the scenario below, imagine that you're sending an http request to another machine somewhere on the network.
 
 ![Untitled](img/interactive1/Untitled%207.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What layer in the IP stack best corresponds to the phrase: 'handles the delivery of segments from the application layer, may be reliable or unreliable'
+1. Match each description to the correct layer: application, transport, network, link, physical.
+2. Label the protocol stack from sender to receiver using the five layers.
+3. Explain why routers do not use the application and transport layers for forwarding.
 
-2. What layer in the IP stack best corresponds to the phrase: 'handles messages from a variety of network applications'
+#### Focused Solutions
 
-3. What layer in the IP stack best corresponds to the phrase: 'passes frames from one node to another across some medium'
+1. Matches:
+   - Handles application messages: Application
+   - Reliable/unreliable segment delivery: Transport
+   - Moves datagrams source-to-destination: Network
+   - Passes frames between nodes: Link
+   - Bits on the wire: Physical
+2. Sender stack: Application → Transport → Network → Link → Physical. Receiver stack is the reverse. Routers mainly process Physical, Link, and Network layers.
+3. Routers forward datagrams based on network-layer information; they do not need application data or end-host transport state.
 
-4. What layer in the IP stack best corresponds to the phrase: 'bits live on the wire'
+---
 
-5. What layer in the IP stack best corresponds to the phrase: 'moves datagrams from the source host to the destination host'
+## Chapter 2: Application Layer
 
-6. What layer corresponds to box 1?
-
-7. What layer corresponds to box 2?
-
-8. What layer corresponds to box 3?
-
-9. What layer corresponds to box 4?
-
-10. What layer corresponds to box 5?
-
-11. What layer corresponds to box 6?
-
-12. What layer corresponds to box 7?
-
-13. What layer corresponds to box 8?
-
-14. What layer corresponds to box 9?
-
-15. What layer corresponds to box 10?
-
-16. What layer corresponds to box 11?
-
-17. What layer corresponds to box 12?
-
-18. What layer corresponds to box 13?
-
-19. What layer corresponds to box 14?
-
-20. What layer corresponds to box 15?
-
-
-
-#### **SOLUTION**
-
-1. The given phrase corresponds to the Transport Layer.
-
-2. The given phrase corresponds to the Application Layer.
-
-3. The given phrase corresponds to the Link Layer.
-
-4. The given phrase corresponds to the Physical Layer.
-
-5. The given phrase corresponds to the Network Layer.
-
-6. Box 1 is the Application Layer.
-
-7. Box 2 is the Transport Layer.
-
-8. Box 3 is the Network Layer.
-
-9. Box 4 is the Link Layer.
-
-10. Box 5 is the Physical Layer.
-
-11. Box 6 is the Physical Layer.
-
-12. Box 7 is the Link Layer.
-
-13. Box 8 is the Physical Layer.
-
-14. Box 9 is the Link Layer.
-
-15. Box 10 is the Network Layer.
-
-16. Box 11 is the Physical Layer.
-
-17. Box 12 is the Link Layer.
-
-18. Box 13 is the Network Layer.
-
-19. Box 14 is the Transport Layer.
-
-20. Box 15 is the Application Layer.
-
-## CHAPTER 2: APPLICATION LAYER
-
-### [DNS - Basics](https://gaia.cs.umass.edu/kurose_ross/interactive/dns.php)
+### DNS - Basics
 
 Imagine that you are trying to visit www.enterprise.com, but you don't remember the IP address the web-server is running on.
 
@@ -367,121 +212,52 @@ Assume the following records are on the enterprise.com DNS server:
 
 Assume your local DNS server only has the TLD DNS server cached.
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What transport protocol(s) does DNS use: TCP, UDP, or Both?
+1. State the transport protocol(s), port number, and whether DNS uses caching.
+2. Identify the main DNS record types in the example and explain what A, NS, CNAME, and MX are used for.
+3. Trace the lookup for www.enterprise.com: local DNS → TLD → authoritative DNS, including the key returned records.
+4. Trace the email lookup for admin@enterprise.com and identify the MX record contents.
 
-2. What well-known port does DNS use?
+#### Focused Solutions
 
-3. In the above example, how many unique type of Resource Records (RR) are there at the authoritative enterprise.com DNS server?
+1. DNS uses both UDP and TCP, port 53, and it uses caching.
+2. Record types:
+   - A: hostname to IP address
+   - NS: domain to authoritative DNS server
+   - CNAME: alias to canonical hostname
+   - MX: domain to mail server
+3. The TLD returns:
+   - NS: www.enterprise.com → dns.enterprise.com
+   - A: dns.enterprise.com → 146.54.219.75  
+   The authoritative DNS returns:
+   - CNAME: www.enterprise.com → west5.enterprise.com
+   - A: west5.enterprise.com → 142.81.17.206
+4. MX record: enterprise.com → mail.enterprise.com.
 
-4. Can you send multiple DNS questions and get multiple RR answers in one message? Answer with Yes or No
+---
 
-5. To which DNS server does a host send their requests to? Answer with the full name
-
-6. Which type of DNS server holds a company's DNS records? Answer with the full name
-
-7. In the example given in the problem, what is the name of the DNS server for enterprise.com?
-
-8. When you make the request for www.enterprise.com, your local DNS requests the IP on your behalf. When it contacts the TLD server, how many answers (RR) are returned?
-
-9. In the previous question, there were two responses, one was a NS record and the other an A record. What was the content of the A record? Answer with the format: "name, value"
-
-10. Assume that the enterprise.com website is actually hosted on west5.enterprise.com, what type of record is needed for this?
-
-11. Now imagine we are trying to send an email to admin@enterprise.com, and their mail server has the name mail.enterprise.com. What type of record will contain the name of the enterprise.com domain and the name of its mailserver(s)?
-
-12. In that MX record, what are the contents? Answer with the format: "name, value"
-
-13. Does your local DNS server take advantage of caching similar to web requests? Answer with Yes or No
-
-
-
-#### **SOLUTION**
-
-1. DNS generally uses UDP, but in some cases (such as zone transfer) it will use TCP, so the answer is: Both.
-
-2. DNS uses well-known port 53.
-
-3. There are 4 types of RR's: A, CNAME, NS, and MX.
-
-4. Yes, there can be multiple 'questions' and 'answers' in a single DNS request.
-
-5. The host first contacts the Local DNS server, which acts on behalf of the host.
-
-6. The company's Authoritative DNS server is where their RR are stored.
-
-7. The Authoritative DNS server for www.enterprise.com is dns.enterprise.com
-
-8. There are 2 records returned; a NS record, and an A record for the DNS server.
-
-9. The A record has contents: (dns.enterprise.com, 146.54.219.75)
-
-10. In this case, a CNAME record is needed.
-
-11. An MX record will be returned.
-
-12. The MX record has contents: (enterprise.com, mail.enterprise.com)
-
-13. Yes, DNS servers (especially your Local DNS server) cache records for faster retrieval.
-
-### [DNS - Iterative vs Recursive Query](https://gaia.cs.umass.edu/kurose_ross/interactive/dns_query.php)
+### DNS - Iterative vs Recursive Query
 
 Assume that a user is trying to visit [gaia.cs.umass.edu](http://gaia.cs.umass.edu/), but his browser doesn't know the IP address of the website. In this example, examine the difference between an iterative and recursive DNS query.
 
 ![Untitled](img/interactive1/Untitled%209.png)
 
-#### **QUESTION LIST (Iterative)**
+#### Focused Questions
 
-1. Between steps 1 and 2, where does the Local DNS server check first? Answer with 'User', 'DNS Local', 'DNS Root', 'DNS TLD', or 'DNS Authoritative'.
+1. Compare iterative and recursive DNS lookup paths.
+2. Identify the record type returned when the authoritative DNS server resolves gaia.cs.umass.edu.
+3. State which query style is preferred in practice and why.
 
-2. Between steps 2 and 3, assuming the root DNS server doesn't have the IP we want, where does the response link? Answer with 'DNS Local', 'DNS Root', 'DNS TLD', or 'DNS Authoritative'.
+#### Focused Solutions
 
-3. Between steps 4 and 5, assuming the TLD DNS server doesn't have the IP we want, where does the response link? Answer with 'DNS Local', 'DNS Root', 'DNS TLD', or 'DNS Authoritative'.
+1. Iterative: local DNS contacts root, then TLD, then authoritative server. Recursive: each DNS server forwards the request to the next server.
+2. The returned record is type A.
+3. Iterative is preferred because it reduces load on root and TLD servers.
 
-4. Between steps 6 and 7, the authoritative DNS server responds with the IP we want. What type of DNS record is returned?
+---
 
-5. Which type of query is considered best practice: iterative or recursive?
-
-#### **SOLUTION**
-
-1. The Local DNS server first checks the DNS Root.
-
-2. The Local DNS server then checks the DNS TLD server.
-
-3. Finally, the Local DNS server checks the DNS Authoritative server.
-
-4. The DNS record received is type A (Type A is hostname:IP)
-
-5. Iterative is considered 'best practice' because it puts less strain on the Root and TLD DNS servers.
-
-#### **QUESTION LIST (Recursive)**
-
-1. Between steps 1 and 2, where does the Local DNS server check first? Answer with 'User', 'DNS Local', 'DNS Root', 'DNS TLD', or 'DNS Authoritative'.
-
-2. Between steps 2 and 3, where does the root DNS forward the request to? Answer with 'DNS Local', 'DNS Root', 'DNS TLD', or 'DNS Authoritative'.
-
-3. Between steps 4 and 5, where does the authoritative DNS forward the response to? Answer with 'DNS Local', 'DNS Root', 'DNS TLD', or 'DNS Authoritative'.
-
-4. In steps 6-8, the response is sent back in the reverse direction until it reaches the user. What type of DNS record is returned?
-
-5. Which type of query is considered best practice: Iterative or Recursive?
-
-
-
-#### **SOLUTION**
-
-1. The Local DNS server first checks the DNS Root.
-
-2. The Root DNS server forwards the request to the DNS TLD server.
-
-3. The Authoritative DNS server forwards the response back to the DNS TLD server.
-
-4. The DNS record received is type A (Type A is hostname:IP)
-
-5. Iterative is considered 'best practice' because it puts less strain on the Root and TLD DNS servers.
-
-### [DNS and HTTP delays](https://gaia.cs.umass.edu/kurose_ross/interactive/DNS_HTTP_delay.php)
+### DNS and HTTP Delays
 
 Before doing this question, you might want to review sections 2.2.1 and 2.2.2 on HTTP (in particular the text surrounding Figure 2.7) and the operation of the DNS (in particular the text surrounding Figure 2.19).
 
@@ -489,33 +265,27 @@ Suppose within your Web browser you click on a link to obtain a Web page. The IP
 
 ![Untitled](img/interactive1/Untitled%2010.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Assuming zero transmission time for the HTML object, how much time (in msec) elapses from when the client clicks on the link until the client receives the object?
+1. Compute total delay for one small HTML object after DNS lookup.
+2. Compute total delay for a base object plus 8 embedded objects using:
+   - non-persistent HTTP without parallel TCP,
+   - non-persistent HTTP with up to 5 parallel TCP connections,
+   - persistent HTTP with up to 5 parallel TCP connections.
+3. Rank the methods from fastest to slowest.
 
-2. Now suppose the HTML object references 8 very small objects on the same server. Neglecting transmission times, how much time (in msec) elapses from when the client clicks on the link until the base object and all 8 additional objects are received from web server at the client, assuming non-persistent HTTP and no parallel TCP connections?
+#### Focused Solutions
 
-3. Suppose the HTML object references 8 very small objects on the same server, but assume that the client is configured to support a maximum of 5 parallel TCP connections, with non-persistent HTTP.
+1. One object: 274 ms.
+2. Results:
+   - Non-persistent serial: 1762 ms
+   - Non-persistent parallel: 646 ms
+   - Persistent parallel: 460 ms
+3. Fastest to slowest: persistent parallel, non-persistent parallel, non-persistent serial.
 
-4. Suppose the HTML object references 8 very small objects on the same server, but assume that the client is configured to support a maximum of 5 parallel TCP connections, with persistent HTTP.
+---
 
-5. What's the fastest method we've explored: Nonpersistent-serial, Nonpersistent-parallel, or Persistent-parallel?
-
-
-
-#### **SOLUTION**
-
-1. The time from when the Web request is made in the browser until the page is displayed in the browser is: RTT0 + RTT1 + RTT2 + RTT3 + 2*RTTHTTP = 3 + 42 + 29 + 14 + 2*93 = 274 msecs. Note that 2 RTTHTTP are needed to fetch the HTML object - one RTTHTTP to establish the TCP connection, and then one RTTHTTP to perform the HTTP GET/response over that TCP connection.
-
-2. The time from when the Web request is made in the browser until the page is displayed in the browser is: RTT0 + RTT1 + RTT2 + RTT3 + 2*RTTHTTP + 2*8*RTTHTTP = 3 + 42 + 29 + 14 + 2*93 + 2*8*93 = 1762 msecs. Note that two RTTHTTP delays are needed to fetch the base HTML object - one RTTHTTP to establish the TCP connection, and one RTTHTTP to send the HTTP request, and receive the HTTP reply. Then, serially, for *each* of the 8 embedded objects, a delay of 2*RTTHTTP is needed - one RTTHTTP to establish the TCP connection and then one RTTHTTP to perform the HTTP GET/response over that TCP connection.
-
-3. Since there are 8 objects, there's a delay of 88 msec for the DNS query, two RTTHTTP for the base page, and 4*RTTHTTP for the objects since the requests for 5 of these objects can be run in parallel (2 RTTHTTP) and the rest can be done after (2 RTTHTTP). The total is 88 + 186 + 186 + 186 = 646 msec. As in 2 above, 2 RTTHTTP are needed to fetch the base HTML object - one RTTHTTP to establish the TCP connection, and one RTTHTTP to send the HTTP request and receive the HTTP reply containing the base HTML object. Once the base object is received at the client, the 8 HTTP GETS for the embedded objects can proceed in parallel. Each (in parallel) requires two RTTHTTP delays - one RTTHTTP to set up the TCP connection, and one RTTHTTP to perform the HTTP GET/response for an embedded object.
-
-4. Since there are 8 objects, there's a delay of 88 msec for the DNS query. There's also a delay of two RTTHTTP for the base page, and 2 RTTHTTP for the objects. The total is 88 + 186 + 186 = 460 msec.As in 2 and 3 above, two RTTHTTP delays are needed to fetch the base HTML object - one RTTHTTP to establish the TCP connection, and one RTTHTTP to send the HTTP request, and receive the HTTP reply containing the base HTML object. However, with persistent HTTP, this TCP connection will remain open for future HTTP requests, which will therefore not incur a TCP establishment delay. Once the base object is received at the client, the maximum of five requests can proceed in parallel, each retrieving one of the 8 embedded objects. Each (in parallel) requires only one RTTHTTP delay to perform the HTTP GET/response for an embedded object. Once these first five objects have been retrieved, (if necessary) the remaining embedded objects can be retrieved (in parallel). This second round of HTTP GET/response to retreive the remaining embedded objects takes only one more RTTHTTP, since the TCP connection has remained open.
-
-5. The delay when using persistent parallel connections is faster than using nonpersistent parallel connections, which is faster than using nonpersistent serial connections
-
-### [HTTP GET](https://gaia.cs.umass.edu/kurose_ross/interactive/http-get.php)
+### HTTP GET
 
 Consider the figure below, where a client is sending an HTTP GET message to a web server, [gaia.cs.umass.edu](http://gaia.cs.umass.edu/)
 
@@ -525,45 +295,19 @@ Suppose the client-to-server HTTP GET message is the following:
 
 *GET /kurose_ross_sandbox/interactive/quotation5.htm HTTP/1.1Host: gaia.cs.umass.eduAccept: text/plain, text/html, image/jpeg, image/gif, audio/vnf.wave, audio/basic, video/mp4, video/wmv,Accept-Language: en-us, en-gb;q=0.7, en;q=0.8, fr, fr-ch, zh, de, ar, csIf-Modified-Since: Thu, 19 Oct 2023 12:28:38 -0700User Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0*
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the name of the file that is being retrieved in this GET message?
+1. From the HTTP GET request, identify the requested file, HTTP version, accepted media types, and accepted languages.
+2. Explain what the If-Modified-Since header tells the server.
 
-2. What version of HTTP is the client running?
+#### Focused Solutions
 
-3. True or False: The client will accept html files
+1. File: quotation5.htm. HTTP version: HTTP/1.1. The client accepts text/html, image/jpeg, German, and several other languages.
+2. It means the client has a cached copy and asks the server to send the file only if it has changed since Thu, 19 Oct 2023 12:28:38 -0700.
 
-4. True or False: The client will accept jpeg images
+---
 
-5. What is the client's preferred version of English?
-
-6. What is the client's least preferred version of English?
-
-7. True or False: The client will accept the German language
-
-8. True or False: The client already has a cached copy of the file
-
-
-
-#### **SOLUTION**
-
-1. The name of the file is quotation5.htm.
-
-2. The client is running on HTTP/1.1
-
-3. True. In the 'Accept' field the client includes 'text/html' files.
-
-4. True. The client does include 'image/jpeg' in its 'Accept' field.
-
-5. The client's preferred version of English is American English. Any language without a defined q value has a default value of 1
-
-6. The client's least preferred version of English is British English because it has the lowest q value.
-
-7. True. The client does include German in its 'Accepted-Language' field.
-
-8. True. The client has a cached copy of the file that was updated on: Thu, 19 Oct 2023 12:28:38 -0700
-
-### [HTTP RESPONSE](https://gaia.cs.umass.edu/kurose_ross/interactive/http-response.php)
+### HTTP Response
 
 Consider the figure below, where the server is sending a HTTP RESPONSE message back the client.
 
@@ -573,41 +317,19 @@ Suppose the server-to-client HTTP RESPONSE message is the following:
 
 *HTTP/1.0 404 Not FoundDate: Thu, 19 Oct 2023 19:41:19 +0000Server: Apache/2.2.3 (CentOS)Content-Length: 353Connection: CloseContent-type: image/html*
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Is the response message using HTTP 1.0 or HTTP 1.1?
+1. From the HTTP response, identify the HTTP version, status meaning, object size, connection type, content type, and server version.
+2. Explain whether the ETag changes when the resource content changes.
 
-2. Was the server able to send the document successfully? Yes or No
+#### Focused Solutions
 
-3. How big is the document in bytes?
+1. HTTP/1.0. Status 404 Not Found, so the document was not successfully sent. Size = 353 bytes. Connection = nonpersistent. Content type = image/html. Server = Apache/2.2.3.
+2. Yes. The ETag changes when the resource changes.
 
-4. Is the connection persistent or nonpersistent?
+---
 
-5. What is the type of file being sent by the server in response?
-
-6. What is the name of the server and its version? Write your answer as server/x.y.z
-
-7. Will the ETag change if the resource content at this particular resource location changes? Yes or No
-
-
-
-#### **SOLUTION**
-
-1. The response is using HTTP/1.0
-
-2. Since the response code is 404 Not Found, the document was NOT received successfully.
-
-3. The document is 353 bytes.
-
-4. The connection is nonpersistent.
-
-5. The file type the server is sending is image/html.
-
-6. The name and version of the server is Apache/2.2.3
-
-7. Yes. The Etag is a string that uniquely identifies a resource. If a resource is updated, the Etag will change.
-
-### [Browser Caching](https://gaia.cs.umass.edu/kurose_ross/interactive/browser_caching.php)
+### Browser Caching
 
 Consider an HTTP server and client as shown in the figure below. Suppose that the RTT delay between the client and server is 30 msecs; the time a server needs to transmit an object into its outgoing link is 1 msecs; and any other HTTP message not containing an object has a negligible (zero) transmission time. Suppose the client again makes 100 requests, one after the other, waiting for a reply to a request before sending the next request.
 
@@ -615,17 +337,17 @@ Consider an HTTP server and client as shown in the figure below. Suppose that th
 
 Assume the client is using HTTP 1.1 and the IF-MODIFIED-SINCE header line. Assume 60% of the objects requested have NOT changed since the client downloaded them (before these 100 downloads are performed)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. How much time elapses (in milliseconds) between the client transmitting the first request, and the completion of the last request?
+1. Compute the total time for 100 sequential requests when RTT = 30 ms, object transmission time = 1 ms, and 60% of objects are unchanged.
 
+#### Focused Solutions
 
+1. Total time = 3040 ms.
 
-#### **SOLUTION**
+---
 
-1. (RTT * NUM_PACKETS) + (NUM_PACKETS * (PERCENT__NOT_CACHED / 100) * TRANS_DELAY) = (30 * 100) + (100 * ((100-60) / 100) * 1) = 3040 ms
-
-### [Electronic Mail and SMTP](https://gaia.cs.umass.edu/kurose_ross/interactive/smtp.php)
+### Electronic Mail and SMTP
 
 Look at the scenario below, where Alice sends an email to Bob.
 
@@ -633,83 +355,35 @@ Look at the scenario below, where Alice sends an email to Bob.
 
 For the questions below, assume both Bob's and Alice's user agents use the POP3 protocol.
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. At point 2 in the diagram, what protocol is being used?
+1. Identify which protocols are used when Alice sends mail to Bob and Bob retrieves it using POP3.
+2. State whether SMTP and POP3 are push or pull protocols, and give their port numbers.
 
-2. At point 4 in the diagram, what protocol is being used?
+#### Focused Solutions
 
-3. At point 6 in the diagram, what protocol is being used?
+1. SMTP is used to send mail between Alice, Alice's mail server, and Bob's mail server. POP3 is used when Bob retrieves the email.
+2. SMTP: TCP, push, port 25. POP3: pull, port 110.
 
-4. Does SMTP use TCP or UDP?
+---
 
-5. Is SMTP a 'push' or 'pull' protocol?
+### Client-Server vs P2P File Distribution
 
-6. Is POP3 a 'push' or 'pull' protocol?
+#### Focused Questions
 
-7. What port does SMTP use?
+1. Compute the minimum distribution time using the client-server model and identify the bottleneck.
+2. Compute the minimum distribution time using P2P and identify the bottleneck.
 
-8. What port does POP3 use?
+#### Focused Solutions
 
+1. Client-server time = 833.33 seconds. Bottleneck = client c1.
+2. P2P time = 833.33 seconds. Bottleneck = client download rate.
 
+---
 
-#### **SOLUTION**
+## Chapter 3: Transport Layer
 
-1. At point 2 in the diagram, the SMTP protocol is used.
-
-2. At point 4 in the diagram, the SMTP protocol is used.
-
-3. At point 6 in the diagram, the POP3 protocol is used.
-
-4. SMTP uses the TCP protocol.
-
-5. SMTP is a 'push' protocol
-
-6. POP3 is a 'pull' protocol
-
-7. SMTP uses port 25
-
-8. POP3 uses port 110
-
-### [A comparison of client-server and P2P file distribution delays](https://gaia.cs.umass.edu/kurose_ross/interactive/CS_vs_P2P_download.php)
-
-In this problem, you'll compare the time needed to distribute a file that is initially located at a server to clients via either client-server download or peer-to-peer download. Before beginning, you might want to first review Section 2.5 and the discussion surrounding Figure 2.22 in the text.
-
-![Untitled](img/interactive1/Untitled%2015.png)
-
-The problem is to distribute a file of size F = 10 Gbits to each of these 8 peers. Suppose the server has an upload rate of u = 99 Mbps.
-
-The 8 peers have upload rates of: u1= 18 Mbps, u2= 30 Mbps, u3= 30 Mbps, u4= 11 Mbps, u5= 14 Mbps, u6= 18 Mbps, u7= 12 Mbps, and u8= 13 Mbps
-
-The 8 peers have download rates of: d1= 12 Mbps, d2= 23 Mbps, d3= 17 Mbps, d4= 12 Mbps, d5= 36 Mbps, d6= 27 Mbps, d7= 15 Mbps, and d8= 29 Mbps
-
-#### **QUESTION LIST**
-
-1. What is the minimum time needed to distribute this file from the central server to the 8 peers using the client-server model?
-
-2. For the previous question, what is the root cause of this specific minimum time? Answer as 's' or 'ci' where 'i' is the client's number
-
-3. What is the minimum time needed to distribute this file using peer-to-peer download?
-
-4. For question 3, what is the root case of this specific minimum time: the server (s), client (c), or the combined upload of the clients and the server (cu)
-
-
-
-#### **SOLUTION**
-
-1. The minimum time needed to distribute the file = max of: N*F / US and F / dmin = 833.33 seconds.
-
-2. The root cause of the minimum time was c1.
-
-3. The minimum time needed to distribute the file = max of: F / US, F / dmin, and N * F / sum of ui for all i + uS = 833.33 seconds.
-
-4. The root cause of the minimum time was c.
-
-## CHAPTER 3: TRANSPORT LAYER
-
-
-
-### [Internet checksum](https://gaia.cs.umass.edu/kurose_ross/interactive/internet_checksum.php)
+### Internet Checksum
 
 Consider the two 16-bit words (shown in binary) below. Recall that to compute the Internet checksum of a set of 16-bit words, we compute the one's complement sum [[1](http://mathforum.org/library/drmath/view/54379.html)] of the two words. That is, we add the two numbers together, making sure that any carry into the 17th bit of this initial sum is added back into the 1's place of the resulting sum); we then take the one's complement of the result. Compute the Internet checksum value for these two 16-bit words:
 
@@ -721,21 +395,17 @@ Consider the two 16-bit words (shown in binary) below. Recall that to compute th
 
 *this binary number is 2313 decimal (base 10)*
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the sum of these two 16 bit numbers? Don't put any spaces in your answer
+1. Add the two 16-bit words and compute the Internet checksum.
 
-2. Using the sum from question 1, what is the checksum? Don't put any spaces in your answer
+#### Focused Solutions
 
+1. Sum = 1001010001100011. Checksum = 0110101110011100.
 
+---
 
-#### **SOLUTION**
-
-1. The sum of 10001011 01011010 and 00001001 00001001 = 10010100   01100011
-
-2. The internet checksum is the one's complement of the sum: 10010100   01100011 = 01101011   10011100
-
-### [Reliable data transfer: rdt22](https://gaia.cs.umass.edu/kurose_ross/interactive/rdt22.php)
+### Reliable Data Transfer: rdt2.2
 
 Consider the rdt2.2 protocol from the text (pages 209-212). The FSMs for the sender and receiver are shown below:
 
@@ -747,65 +417,23 @@ Suppose that the channel connecting the sender and receiver can corrupt but not 
 
 ![Untitled](img/interactive1/Untitled%2018.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. At time t=0, what is the sender state?
+1. For the shown exchange, identify the sender/receiver states and sequence or ACK numbers at t = 0, 1, 2, and 3.
+2. How many payloads are delivered to the higher layer?
 
-2. At time t=0, what is the receiver state?
+#### Focused Solutions
 
-3. At time t=0, what is the sequence/ack # of the packet?
+1. Summary:
+   - t=0: sender waits for ACK 0, receiver waits for 0, sequence = 0
+   - t=1: sender waits for ACK 0, receiver waits for 0, ACK = 1
+   - t=2: sender waits for ACK 0, receiver waits for 0, sequence = 0
+   - t=3: sender waits for ACK 0, receiver waits for 1, ACK = 0
+2. One payload is delivered.
 
-4. At time t=1, what is the sender state?
+---
 
-5. At time t=1, what is the receiver state?
-
-6. At time t=1, what is the sequence/ack # of the packet?
-
-7. At time t=2, what is the sender state?
-
-8. At time t=2, what is the receiver state?
-
-9. At time t=2, what is the sequence/ack # of the packet?
-
-10. At time t=3, what is the sender state?
-
-11. At time t=3, what is the receiver state?
-
-12. At time t=3, what is the sequence/ack # of the packet?
-
-13. How many times is the payload of the received packet passed up to the higher layer?
-
-
-
-#### **SOLUTION**
-
-1. At time t=0, the sender state is: Wait for ACK 0
-
-2. At time t=0, the receiver state is: Wait for 0 from below
-
-3. At time t=0, the sequence # is: 0
-
-4. At time t=1, the sender state is: Wait for ACK 0
-
-5. At time t=1, the receiver state is: Wait for 0 from below
-
-6. At time t=1, the ACK # is: 1
-
-7. At time t=2, the sender state is: Wait for ACK 0
-
-8. At time t=2, the receiver state is: Wait for 0 from below
-
-9. At time t=2, the sequence # is: 0
-
-10. At time t=3, the sender state is: Wait for ACK 0
-
-11. At time t=3, the receiver state is: Wait for 1 from below
-
-12. At time t=3, the ACK # is: 0
-
-13. 1 packets were passed up to the higher layer by the receiver.
-
-### [Reliable data transfer: rdt30](https://gaia.cs.umass.edu/kurose_ross/interactive/rdt30.php)
+### Reliable Data Transfer: rdt3.0
 
 Consider the RDT 3.0 protocol, for reliably communicating data from a sender to receiver over a channel that can lose or corrupt packets in either direction, and when the maximum delay from sender to receiver and back is not known. The FSMs for the sender and receiver are shown below, with their transitions labeled as SX and RY, respectively.
 
@@ -817,37 +445,35 @@ Now let’s consider the sequence of sender and receiver transitions that would 
 
 Transition Sequence: S0, R0, S1, S2, *, S1, S2, R1, S1, S2, R1, S3, S5, R2, S6, S7, R3, S6, S7, R3, S6, S7, R3, S6, S7, R3, S6, S7, R3, S8
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the missing transition? To indicate the missing transition, enter S or R, followed by an index.
+1. Identify the missing transition in the transition sequence.
 
+#### Focused Solutions
 
+1. Missing transition = R1.
 
-#### **SOLUTION**
+---
 
-1. The missing transition is: R1
-
-### [TCP sequence and ACK numbers, with segment loss](https://gaia.cs.umass.edu/kurose_ross/interactive/tcp_segloss.php)
+### TCP Sequence and ACK Numbers with Segment Loss
 
 Consider the figure below in which a TCP sender and receiver communicate over a connection in which the sender->receiver segments may be lost. The TCP sender sends an initial window of 3 segments. Suppose the initial value of the sender->receiver sequence number is 47 and the first 3 segments *each* contain 685 bytes. The delay between the sender and receiver is 7 time units, and so the first segment arrives at the receiver at t=8. As shown in the figure below, 1 of the 3 segment(s) are lost between the segment and receiver.
 
 ![Untitled](img/interactive1/Untitled%2021.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Give the sequence numbers associated with each of the 3 segments sent by the sender. Format your answer as: a,b,c,...
+1. Compute the sender sequence numbers for the 3 sent segments.
+2. Compute the receiver ACKs, using x for the lost segment.
 
-2. Give the ACK numbers the receiver sends in response to each of the segments. If a segment never arrives use 'x' to denote it, and format your answer as: a,b,c,...
+#### Focused Solutions
 
+1. Sequence numbers: 47,732,1417.
+2. ACKs: 732,1417,x.
 
+---
 
-#### **SOLUTION**
-
-1. The sender's sequence numbers are: 47,732,1417
-
-2. The receiver's ACKs are: 732,1417,x
-
-### [TCP RTT and timeout](https://gaia.cs.umass.edu/kurose_ross/interactive/TCP_RTT.php)
+### TCP RTT and Timeout
 
 Suppose that TCP's current estimated values for the round trip time (*estimatedRTT*) and deviation in the RTT (*DevRTT*) are 270 msec and 45 msec, respectively (see Section 3.5.3 for a discussion of these variables). Suppose that the next three measured values of the RTT are 360 msec, 320 msec, and 200 msec respectively.
 
@@ -855,55 +481,20 @@ Suppose that TCP's current estimated values for the round trip time (*estimatedR
 
 Compute TCP's new value of *DevRTT, estimatedRTT,* and the TCP timeout value after each of these three measured RTT values is obtained. Use the values of α = 0.125, and β = 0.25. Round your answers to two decimal places after leading zeros.
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the estimatedRTT after the first RTT?
+1. Compute EstimatedRTT, DevRTT, and Timeout after each of the three RTT samples: 360 ms, 320 ms, and 200 ms.
 
-2. What is the RTT Deviation for the the first RTT?
+#### Focused Solutions
 
-3. What is the TCP timeout for the first RTT?
+1. Results:
+   - After RTT1: EstimatedRTT = 281.25, DevRTT = 56.25, Timeout = 506.25
+   - After RTT2: EstimatedRTT = 286.09, DevRTT = 51.88, Timeout = 493.59
+   - After RTT3: EstimatedRTT = 275.33, DevRTT = 60.43, Timeout = 517.05
 
-4. What is the estimatedRTT after the second RTT?
+---
 
-5. What is the RTT Deviation for the the second RTT?
-
-6. What is the TCP timeout for the second RTT?
-
-7. What is the estimatedRTT after the third RTT?
-
-8. What is the RTT Deviation for the the third RTT?
-
-9. What is the TCP timeout for the third RTT?
-
-
-
-#### **SOLUTION**
-
-DevRTT is calculated with the following equation: (1-beta)*DevRTT + beta * |estimatedRTT - sampleRTT|
-
-estimatedRTT is calculated with the following equation: (1-alpha)*estimatedRTT + alpha*sampleRTT
-
-TCP timeout is calculated with the following equation: estimatedRTT + (4*DevRTT)
-
-1. The estimatedRTT for RTT1 is 281.25
-
-2. The DevRTT for RTT1 is 56.25
-
-3. The timeout for RTT1 is 506.25
-
-4. The estimatedRTT for RTT2 is 286.09
-
-5. The DevRTT for RTT2 is 51.88
-
-6. The timeout for RTT2 is 493.59
-
-7. The estimatedRTT for RTT3 is 275.33
-
-8. The DevRTT for RTT3 is 60.43
-
-9. The timeout for RTT3 is 517.05
-
-### [TCP congestion window evolution](https://gaia.cs.umass.edu/kurose_ross/interactive/tcp_evolution.php)
+### TCP Congestion Window Evolution
 
 Consider the figure below, which plots the evolution of TCP's congestion window at the beginning of each time unit (where the unit of time is equal to the RTT); see Figure 3.53 in the text. In the abstract model for this problem, TCP sends a "flight" of packets of size *cwnd* at the beginning of each time unit. The result of sending that flight of packets is that either *(i)* all packets are ACKed at the end of the time unit, *(ii)* there is a timeout for the first packet, or *(iii)* there is a triple duplicate ACK for the first packet. In this problem, you are asked to reconstruct the sequence of events (ACKs, losses) that resulted in the evolution of TCP's *cwnd* shown below.
 
@@ -911,764 +502,286 @@ Consider the figure below, which plots the evolution of TCP's congestion window 
 
 Consider the evolution of TCP's congestion window in the example above and answer the following questions. The initial value of *cwnd* is 1 and the initial value of *ssthresh* (shown as a red +) is 8.
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Give the times at which TCP is in slow start. Format your answer like: 1,3,5,9 (If none submit blank)
+1. From the cwnd plot, list the time intervals for slow start, congestion avoidance, and fast recovery.
+2. List the times of packet loss by timeout and by triple duplicate ACK.
+3. List the times when ssthresh changes.
 
-2. Give the times at which TCP is in congestion avoidance. Format your answer like: 1,3,5,9 (If none submit blank)
+#### Focused Solutions
 
-3. Give the times at which TCP is in fast recovery. Format your answer like: 1,3,5,9 (If none submit blank)
+1. States:
+   - Slow start: 1,2,3,13,14,15,16,22,23,26,27,34,35,36,39,40
+   - Congestion avoidance: 4,5,6,7,8,9,10,11,12,17,18,19,20,21,24,25,28,29,31,32,33,37,38
+   - Fast recovery: 30
+2. Losses:
+   - Timeout: 12,15,21,25,33,38
+   - Triple duplicate ACK: 29
+3. ssthresh changes: 16,22,26,34,39.
 
-4. Give the times at which packets are lost via timeout. Format your answer like: 1,3,5,9 (If none submit blank)
+---
 
-5. Give the times at which packets are lost via *triple ACK*. Format your answer like: 1,3,5,9 (If none submit blank)
-
-6. Give the times at which the value of *ssthresh* changes (if it changes between t=3 and t=4, use t=4 in your answer)
-
-
-
-#### **SOLUTION**
-
-1. The times where TCP is in slow start are: 1,2,3,13,14,15,16,22,23,26,27,34,35,36,39,40
-
-2. The times where TCP is in congestion avoidance are: 4,5,6,7,8,9,10,11,12,17,18,19,20,21,24,25,28,29,31,32,33,37,38
-
-3. The times where TCP is in fast recovery are: 30
-
-4. The times where TCP has a loss by timeout are: 12,15,21,25,33,38
-
-5. The times where TCP has a loss by triple duplicate ACK are: 29
-
-6. The times where the *ssthresh* changes are: 16,22,26,34,39
-
-The complete solution is shown in the figure below:
-
-- For intervals of time when TCP is in slow start, the plotted value of *cwnd* is shown as a green square
-- For intervals of time when TCP is in congestion avoidance, the plotted value of *cwnd* is shown as a yellow square
-- For intervals of time when TCP is in fast reccovery, the plotted value of *cwnd* is shown as an orange square
-- The values for *ssthresh* are shown following a change as a red plus sign
-- A flight of packets experiencing a loss has the loss type (which determines the next value of *cwnd*) labeled above
-
-![Untitled](img/interactive1/Untitled%2024.png)
-
-### [TCP retransmissions (reliable data transmission with ACK loss)](https://gaia.cs.umass.edu/kurose_ross/interactive/tcp_retrans.php)
+### TCP Retransmissions with ACK Loss
 
 Consider the figure below in which a TCP sender and receiver communicate over a connection in which the segments can be lost. The TCP sender wants to send a total of 10 segments to the receiver and sends an initial window of 5 segments at t = 1, 2, 3, 4, and 5, respectively. Suppose the initial value of the sequence number is 104 and every segment sent to the receiver each contains 957 bytes. The delay between the sender and receiver is 7 time units, and so the first segment arrives at the receiver at t = 8, and an ACK for this segment arrives at t = 15. As shown in the figure, 1 of the 5 segments is lost between the sender and the receiver, but *one* of the ACKs is lost. Assume there are no timeouts and any out of order segments received are thrown out.
 
 ![Untitled](img/interactive1/Untitled%2025.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the sequence number of the segment sent at t=1?
+1. Compute the sequence numbers of the first 5 sent segments.
+2. Compute the ACKs sent by the receiver for arrivals at t = 8 through t = 12.
+3. Compute which new segment sequence numbers are sent at t = 15 through t = 19, using x where none is sent.
 
-2. What is the sequence number of the segment sent at t=2?
+#### Focused Solutions
 
-3. What is the sequence number of the segment sent at t=3?
+1. First 5 sequence numbers: 104,1061,2018,2975,3932.
+2. ACKs: 1061,2018,2975,x,2975.
+3. Sent at t=15..19: 4889,x,5846,6803,x.
 
-4. What is the sequence number of the segment sent at t=4?
+---
 
-5. What is the sequence number of the segment sent at t=5?
-
-6. What is the value of the ACK sent at t=8? (If segment lost, write 'x')
-
-7. What is the value of the ACK sent at t=9? (If segment lost, write 'x')
-
-8. What is the value of the ACK sent at t=10? (If segment lost, write 'x')
-
-9. What is the value of the ACK sent at t=11? (If segment lost, write 'x')
-
-10. What is the value of the ACK sent at t=12? (If segment lost, write 'x')
-
-11. What is the sequence number of the segment sent at t = 15? (If ACK never arrives, write 'x')
-
-12. What is the sequence number of the segment sent at t = 16? (If ACK never arrives, write 'x')
-
-13. What is the sequence number of the segment sent at t = 17? (If ACK never arrives, write 'x')
-
-14. What is the sequence number of the segment sent at t = 18? (If ACK never arrives, write 'x')
-
-15. What is the sequence number of the segment sent at t = 19? (If ACK never arrives, write 'x')
-
-
-
-#### **SOLUTION**
-
-1. The sequence number of the first segment is the starting sequence number, which is 104.
-
-2. The sequence number of the second segment is = 104 + 957 = 1061.
-
-3. The sequence number of the third segment is = 1061 + 957 = 2018.
-
-4. The sequence number of the fourth segment is = 2018 + 957 = 2975.
-
-5. The sequence number of the fifth segment is = 2975 + 957 = 3932.
-
-6. The ACK value is the sequence number of the next expected segment, which is 1061.
-
-7. The ACK value is the sequence number of the next expected segment, which is 2018.
-
-8. The ACK value is the sequence number of the next expected segment, which is 2975.
-
-9. Since the segment was lost, the ACK is never sent, so the answer is x.
-
-10. The ACK value is the sequence number of the next expected segment, which is 2975.
-
-11. The sequence number of this segment is calculated the same way as the first five segments. The sequence number is 4889.
-
-12. Since there was nothing to send (as we're waiting for ACKs), the answer is x.
-
-13. The sequence number of this segment is calculated the same way as the first five segments. The sequence number is 5846.
-
-14. The sequence number of this segment is calculated the same way as the first five segments. The sequence number is 6803.
-
-15. Since there was nothing to send (as we're waiting for ACKs), the answer is x.
-
-### [UDP Mux and Demux](https://gaia.cs.umass.edu/kurose_ross/interactive/UDP_Mux_Demux.php)
+### UDP Mux and Demux
 
 In the scenario below, the left and right clients communicate with a server using UDP sockets. The same socket at the server is used to communicate with both clients. The Python code used to create the sockets is shown in the figure. Consider the four transport-layer packets – A, B, C and D – shown in the figure below.
 
 ![Untitled](img/interactive1/Untitled%2026.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the source port # for packet A?
+1. For packets A, B, C, and D, give each packet's source and destination port.
 
-2. What is the destination port # for packet A?
+#### Focused Solutions
 
-3. What is the source port # for packet B?
+1. Ports:
+   - A: src 7478, dst 7376
+   - B: src 7376, dst 7478
+   - C: src 7478, dst 7376
+   - D: src 7376, dst 7478
 
-4. What is the destination port # for packet B?
+---
 
-5. What is the source port # for packet D?
-
-6. What is the destination port # for packet D?
-
-7. What is the source port # for packet C?
-
-8. What is the destination port # for packet C?
-
-
-
-#### **SOLUTION**
-
-1. The source port for packet A is port 7478.
-
-2. The destination port for packet A is port 7376.
-
-3. The source port for packet B is port 7376.
-
-4. The destination port for packet B is port 7478.
-
-5. The source port for packet D is port 7376.
-
-6. The destination port for packet D is port 7478.
-
-7. The source port for packet C is port 7478.
-
-8. The destination port for packet C is port 7376.
-
-### [TCP Mux and Demux](https://gaia.cs.umass.edu/kurose_ross/interactive/TCP_Mux_Demux.php)
+### TCP Mux and Demux
 
 In the scenario below, the left and right TCP clients communicate with a TCP server using TCP sockets. The Python code used to create a single welcoming socket in the server is shown in the figure (the welcoming socket itself is not shown graphically); code is also shown for the client sockets as well. The three sockets shown in server were created as a result of the server accepting connection requests on this welcoming socket from the two clients (one connection from the client on the left, and two connections from the client on the right).
 
 ![Untitled](img/interactive1/Untitled%2027.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the source port # for packet D?
+1. For packets A, B, C, and D, give each packet's source and destination port.
 
-2. What is the destination port # for packet D?
+#### Focused Solutions
 
-3. What is the source port # for packet C?
+1. Ports:
+   - A: src 6595, dst 5429
+   - B: src 5429, dst 6595
+   - C: src 5641, dst 5429
+   - D: src 6918, dst 5429
 
-4. What is the destination port # for packet C?
+---
 
-5. What is the source port # for packet A?
+## Chapter 4: Network Layer: Data Plane
 
-6. What is the destination port # for packet A?
-
-7. What is the source port # for packet B?
-
-8. What is the destination port # for packet B?
-
-
-
-#### **SOLUTION**
-
-1. The source port for packet D is port 6918.
-
-2. The destination port for packet D is port 5429.
-
-3. The source port for packet C is port 5641.
-
-4. The destination port for packet C is port 5429.
-
-5. The source port for packet A is port 6595.
-
-6. The destination port for packet A is port 5429.
-
-7. The source port for packet B is port 5429.
-
-8. The destination port for packet B is port 6595.
-
-
-## **CHAPTER 4: NETWORK LAYER: DATA PLANE**
-
-### ****LONGEST PREFIX MATCHING****
+### Longest Prefix Matching
 
 ![Untitled](img/interactive2/Untitled.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Suppose a datagram arrives at the router, with destination address 00001100. To which interface will this datagram be forwarded using longest-prefix matching?
+1. For the three destination addresses, apply longest-prefix matching and give the forwarding interface for each.
 
-2. Suppose a datagram arrives at the router, with destination address 11100010. To which interface will this datagram be forwarded using longest-prefix matching?
+#### Focused Solutions
 
-3. Suppose a datagram arrives at the router, with destination address 01010111. To which interface will this datagram be forwarded using longest-prefix matching?
+1. Interfaces:
+   - 00001100 → interface 3
+   - 11100010 → interface 4
+   - 01010111 → interface 5
 
-#### **SOLUTION**
+---
 
-1. Since the address is 00001100, it will go to interface 3.
-
-2. Since the address is 11100010, it will go to interface 4.
-
-3. Since the address is 01010111, it will go to interface 5.
-
-### ****PACKET SCHEDULING****
+### Packet Scheduling
 
 ![Untitled](img/interactive2/Untitled%201.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. At t=1, which packet is sent out? Give the packet # or 'n/a' if applicable
+1. For the shown arrivals, give the complete transmission order for FIFO, Priority, Round-Robin, and WFQ.
 
-2. At t=2, which packet is sent out? Give the packet # or 'n/a' if applicable
+#### Focused Solutions
 
-3. At t=3, which packet is sent out? Give the packet # or 'n/a' if applicable
+1. Transmission orders:
+   - FIFO: 1,2,3,4,5,6,7,8,9,10,11
+   - Priority: 1,2,3,7,8,9,10,11,4,5,6
+   - Round-Robin: 1,2,3,7,4,5,8,6,9,10,11
+   - WFQ: 1,2,3,7,8,9,10,11,4,5,6
 
-4. At t=4, which packet is sent out? Give the packet # or 'n/a' if applicable
+---
 
-5. At t=5, which packet is sent out? Give the packet # or 'n/a' if applicable
-
-6. At t=6, which packet is sent out? Give the packet # or 'n/a' if applicable
-
-7. At t=7, which packet is sent out? Give the packet # or 'n/a' if applicable
-
-8. At t=8, which packet is sent out? Give the packet # or 'n/a' if applicable
-
-9. At t=9, which packet is sent out? Give the packet # or 'n/a' if applicable
-
-10. At t=10, which packet is sent out? Give the packet # or 'n/a' if applicable
-
-11. At t=11, which packet is sent out? Give the packet # or 'n/a' if applicable
-
-#### **SOLUTION (FIFO)**
-
-1. At time t=1, the packet sent is 1.
-
-2. At time t=2, the packet sent is 2.
-
-3. At time t=3, the packet sent is 3.
-
-4. At time t=4, the packet sent is 4.
-
-5. At time t=5, the packet sent is 5.
-
-6. At time t=6, the packet sent is 6.
-
-7. At time t=7, the packet sent is 7.
-
-8. At time t=8, the packet sent is 8.
-
-9. At time t=9, the packet sent is 9.
-
-10. At time t=10, the packet sent is 10.
-
-11. At time t=11, the packet sent is 11.
-
-#### **SOLUTION (Priority)**
-
-1. At time t=1, the packet sent is 1.
-
-2. At time t=2, the packet sent is 2.
-
-3. At time t=3, the packet sent is 3.
-
-4. At time t=4, the packet sent is 7.
-
-5. At time t=5, the packet sent is 8.
-
-6. At time t=6, the packet sent is 9.
-
-7. At time t=7, the packet sent is 10.
-
-8. At time t=8, the packet sent is 11.
-
-9. At time t=9, the packet sent is 4.
-
-10. At time t=10, the packet sent is 5.
-
-11. At time t=11, the packet sent is 6.
-
-#### **SOLUTION (Round-Robin)**
-
-1. At time t=1, the packet sent is 1.
-
-2. At time t=2, the packet sent is 2.
-
-3. At time t=3, the packet sent is 3.
-
-4. At time t=4, the packet sent is 7.
-
-5. At time t=5, the packet sent is 4.
-
-6. At time t=6, the packet sent is 5.
-
-7. At time t=7, the packet sent is 8.
-
-8. At time t=8, the packet sent is 6.
-
-9. At time t=9, the packet sent is 9.
-
-10. At time t=10, the packet sent is 10.
-
-11. At time t=11, the packet sent is 11.
-
-#### **SOLUTION (WFQ)**
-
-1. At time t=1, the packet sent is 1.
-
-2. At time t=2, the packet sent is 2.
-
-3. At time t=3, the packet sent is 3.
-
-4. At time t=4, the packet sent is 7.
-
-5. At time t=5, the packet sent is 8.
-
-6. At time t=6, the packet sent is 9.
-
-7. At time t=7, the packet sent is 10.
-
-8. At time t=8, the packet sent is 11.
-
-9. At time t=9, the packet sent is 4.
-
-10. At time t=10, the packet sent is 5.
-
-11. At time t=11, the packet sent is 6.
-
-### ****SUBNET ADDRESSING****
+### Subnet Addressing
 
 ![Untitled](img/interactive2/Untitled%202.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Is the address space public or private?
+1. Determine whether 12.5.14.0/24 is public or private, and compute the total usable host addresses.
+2. Allocate subnets A and B, then give each subnet's CIDR, broadcast address, first usable address, and last usable address.
 
-2. How many hosts can there be in this address space?
+#### Focused Solutions
 
-3. What is the subnet address of subnet A? (CIDR notation)
+1. 12.5.14.0/24 is public. Usable hosts = 254.
+2. Subnets:
+   - A: 12.5.14.128/26, broadcast 12.5.14.191, usable range 12.5.14.129–12.5.14.190
+   - B: 12.5.14.0/25, broadcast 12.5.14.127, usable range 12.5.14.1–12.5.14.126
 
-4. What is the broadcast address of subnet A?
+---
 
-5. What is the starting address of subnet A?
-
-6. What is the ending address of subnet A?
-
-7. What is the subnet address of subnet B? (CIDR notation)
-
-8. What is the broadcast address of subnet B?
-
-9. What is the starting address of subnet B?
-
-10. What is the ending address of subnet B?
-
-#### **SOLUTION**
-
-1. The address 12.5.14.0/24 is public.
-
-2. Maximum number of hosts = 2^x - 2 = 2^8 - 2 = 254. The reason we have to subtract 2 from the final number is because there are always 2 addresses allocated for each address block: the subnet ID (the first address) and the broadcast address (the last address); for example, if you have 5 bits for hosts, you can have 30 hosts, because 2 of the addresses are for the subnet ID and the broadcast address which when added equals 32, which is 2^5.
-
-3. Subnet A has 55 hosts, so it will need at least 57 addresses (for the subnet ID and broadcast address). The least number of bits that satisfy this is 6 bits. Knowing that, we take the prior subnet and add 64, the result of which is 12.5.14.128/26
-
-4. The broadcast address of subnet A (12.5.14.128/26) is 12.5.14.191, because it is the last address in the IP range.
-
-5. The first IP address of subnet A (12.5.14.128/26) is 12.5.14.129, found by adding 1 to the subnet address.
-
-6. The last IP address of subnet A (12.5.14.128/26) is 12.5.14.190, found by subtracting 1 from the broadcast address (12.5.14.191).
-
-7. Similar to the prior subnet, subnet B has 83 hosts, so it will need at least 85 addresses (for the subnet ID and broadcast address). The least number of bits that satisfy this is 7 bits. Knowing that, we take the prior subnet and add 128, the result of which is 12.5.14.0/25
-
-8. The broadcast address of subnet B (12.5.14.0/25) is 12.5.14.127, because it is the last address in the IP range.
-
-9. The first IP address of subnet B (12.5.14.0/25) is 12.5.14.1, found by adding 1 to the subnet address.
-
-10. The last IP address of subnet B (12.5.14.0/25) is 12.5.14.126, found by subtracting 1 from the broadcast address (12.5.14.127)
-
-### ****NETWORK ADDRESS TRANSLATION****
+### Network Address Translation
 
 ![Untitled](img/interactive2/Untitled%203.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Consider the datagram at step 1, after it has been sent by the host but before it has reached the router. What is the source IP address for this datagram?
+1. Trace the source and destination IP addresses through the four NAT steps.
+2. Explain whether NAT changes the source port and when the NAT table entry is created.
 
-2. At step 1, what is the destination IP address?
+#### Focused Solutions
 
-3. Now consider the datagram at step 2, after it has been transmitted by the router. What is the source IP address for this datagram?
+1. IP address trace:
+   - Step 1: src 10.0.1.15, dst 128.119.177.183
+   - Step 2: src 135.122.200.220, dst 128.119.177.183
+   - Step 3: src 128.119.177.183, dst 135.122.200.220
+   - Step 4: src 128.119.177.183, dst 10.0.1.15
+2. Yes, NAT changes the source port. The NAT table entry is created during the outbound request between step 1 and step 2.
 
-4. At step 2, what is the destination IP address for this datagram?
+---
 
-5. Will the source port have changed? Yes or No.
-
-6. Now consider the datagram at step 3, just before it is received by the router. What is the source IP address for this datagram?
-
-7. At step 3, what is the destination IP address for this datagram?
-
-8. Last, consider the datagram at step 4, after it has been transmitted by the router but before it has been received by the host. What is the source IP address for this datagram?
-
-9. At step 4, what is the destination IP address for this datagram
-
-#### **SOLUTION**
-
-1. The source address will be the local host's IP, which is 10.0.1.15
-
-2. The destination address will be the remote machine's IP, which is 128.119.177.183
-
-3. The source address will be the router's public IP, which is 135.122.200.220
-
-4. The destination address will be the remote machine's IP, which is 128.119.177.183
-
-5. Yes, the NAT will change the source port.
-
-6. The source address will be the remote machine's IP, which is 128.119.177.183
-
-7. The destination address will be the router's public IP, which is 135.122.200.220
-
-8. The source address will be the remote machine's IP, which is 128.119.177.183
-
-9. The destination address will be the local host's IP, which is 10.0.1.15
-
-10. No, an entry is made when there's an outbound request, which only happens between step 1 and step 2.
-
-### ****IPV6 TUNNELING AND ENCAPSULATION****
+### IPv6 Tunneling and Encapsulation
 
 ![Untitled](img/interactive2/Untitled%204.png)
 
-#### **QUESTION LIST**
-
-1. Is the datagram being forwarded from B to c an IPv4 or IPv6 datagram?
-
-2. What is the source address of this B to c datagram?
-
-3. What is the destination address of this B to c datagram?
-
-4. Is this B to c datagram encapsulating another datagram? Yes or No.
-
-5. What is the source address of this encapsulated datagram?
-
-6. What is the destination address of this encapsulated datagram?
-
-7. Is the datagram being forwarded from c to d an IPv4 or IPv6 datagram?
-
-8. What is the source address of this c to d datagram?
-
-9. What is the destination address of this c to d datagram?
-
-10. Is this c to d datagram encapsulating another datagram? Yes or No.
-
-11. What is the source address of this encapsulated datagram?
-
-12. What is the destination address of this encapsulated datagram?
-
-13. Is the datagram being forwarded from d to b an IPv4 or IPv6 datagram?
-
-14. What is the source address of this d to b datagram?
-
-15. What is the destination address of this d to b datagram?
-
-16. Is this d to b datagram encapsulating another datagram? Yes or No.
-
-17. What is the source address of this encapsulated datagram?
-
-18. What is the destination address of this encapsulated datagram?
-
-19. Is the datagram being forwarded from b to F an IPv4 or IPv6 datagram?
-
-20. What is the source address of this b to F datagram?
-
-21. What is the destination address of this b to F datagram?
-
-22. Is this b to F datagram encapsulating another datagram? Yes or No.
-
-23. What is the source address of this encapsulated datagram?
-
-24. What is the destination address of this encapsulated datagram?
-
-25. Is the datagram being forwarded from F to D an IPv4 or IPv6 datagram?
-
-26. What is the source address of this F to D datagram?
-
-27. What is the destination address of this F to D datagram?
-
-28. Is this F to D datagram encapsulating another datagram? Yes or No.
-
-29. What router is the 'tunnel entrance'? Give the router's letter
-
-30. What router is the 'tunnel exit'? Give the router's letter
-
-31. Which protocol encapsulates the other, IPv4 or IPv6?
-
-#### **SOLUTION**
-
-1. The datagram is an IPv4 datagram.
-
-2. The source IP address is 8.160.132.48
-
-3. The destination IP address is 18.178.57.239
-
-4. Yes, the datagram is encapsulated.
-
-5. The source address of this encapsulated datagram is FB43:DDB6:212F:27F9:68DB:5812:4B5E:3F85
-
-6. The destination address of this encapsulated datagram is 777A:84D4:4A7A:443B:DE75:67FA:8983:8159
-
-7. The datagram is an IPv4 datagram.
-
-8. The source IP address is 8.160.132.48
-
-9. The destination IP address is 18.178.57.239
-
-10. Yes, the datagram is encapsulated.
-
-11. The source address of this encapsulated datagram is FB43:DDB6:212F:27F9:68DB:5812:4B5E:3F85
-
-12. The destination address of this encapsulated datagram is 777A:84D4:4A7A:443B:DE75:67FA:8983:8159
-
-13. The datagram is an IPv4 datagram.
-
-14. The source IP address is 8.160.132.48
-
-15. The destination IP address is 18.178.57.239
-
-16. Yes, the datagram is encapsulated.
-
-17. The source address of this encapsulated datagram is FB43:DDB6:212F:27F9:68DB:5812:4B5E:3F85
-
-18. The destination address of this encapsulated datagram is 777A:84D4:4A7A:443B:DE75:67FA:8983:8159
-
-19. The datagram is an IPv4 datagram.
-
-20. The source IP address is 8.160.132.48
-
-21. The destination IP address is 18.178.57.239
-
-22. Yes, the datagram is encapsulated.
-
-23. The source address of this encapsulated datagram is FB43:DDB6:212F:27F9:68DB:5812:4B5E:3F85
-
-24. The destination address of this encapsulated datagram is 777A:84D4:4A7A:443B:DE75:67FA:8983:8159
-
-25. The datagram is an IPv6 datagram.
-
-26. The source IP address is FB43:DDB6:212F:27F9:68DB:5812:4B5E:3F85
-
-27. The destination IP address is 777A:84D4:4A7A:443B:DE75:67FA:8983:8159
-
-28. No, the datagram is NOT encapsulated.
-
-29. The tunnel entrance is router B
-
-30. The tunnel exit is router F
-
-31. IPv4, in order to maintain compatibility with existing IPv4 infrastructure, IPv6 datagrams are put in the payload of an IPv4 datagram. These IPv4 datagrams are passed on until it reaches a router which supports IPv6, where the IPv6 datagram is decapsulated and passed on.
-
-### ****OPENFLOW FLOW TABLES****
+#### Focused Questions
+
+1. Identify the tunnel entrance and tunnel exit.
+2. For the tunnel path, state the outer datagram version, outer source/destination addresses, and encapsulated source/destination addresses.
+3. For the final IPv6 segment, state whether the datagram is still encapsulated.
+4. State which protocol encapsulates the other.
+
+#### Focused Solutions
+
+1. Tunnel entrance = B. Tunnel exit = F.
+2. Tunnel path uses an IPv4 outer datagram:
+   - Outer src: 8.160.132.48
+   - Outer dst: 18.178.57.239
+   - Encapsulated IPv6 src: FB43:DDB6:212F:27F9:68DB:5812:4B5E:3F85
+   - Encapsulated IPv6 dst: 777A:84D4:4A7A:443B:DE75:67FA:8983:8159
+3. The final F→D datagram is IPv6 and is not encapsulated.
+4. IPv4 encapsulates IPv6 during the tunnel.
+
+---
+
+### OpenFlow Flow Tables
 
 ![Untitled](img/interactive2/Untitled%205.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. For router s1, what should the value of the 'IP Src' be? Pick either a specific address (including CIDR), any, or none
+1. Write the OpenFlow rule for s1.
+2. Write the OpenFlow rule for s4.
 
-2. For router s1, what should the value of the 'IP Dst' be? Pick either a specific address (including CIDR), any, or none
+#### Focused Solutions
 
-3. For router s1, what should the value of the 'Src Port' be? Pick either a specific port, or any
+1. s1 rule: IP_Src=128.122/16, IP_Dst=128.119/16, Src_Port=Any, Dst_Port=Any, IP_Protocol=Any, Action=Forward(1).
+2. s4 rule: IP_Src=128.122/16, IP_Dst=128.119/16, Src_Port=Any, Dst_Port=Any, IP_Protocol=Any, Action=Forward(2).
 
-4. For router s1, what should the value of the 'Dst Port' be? Pick either a specific port, or any
+---
 
-5. For router s1, what should the value of the 'IP Proto' be? Pick either TCP, UDP, or any
+## Chapter 5: Network Layer: Control Plane
 
-6. For router s1, what should the action of the rule be? Some examples include forward, allow, deny, etc
-
-7. For router s1, what interface should the packets be forwarded to?
-
-8. For router s4, what should the value of the 'IP Src' be? Pick either a specific address (including CIDR), any, or none
-
-9. For router s4, what should the value of the 'IP Dst' be? Pick either a specific address (including CIDR), any, or none
-
-10. For router s4, what should the value of the 'Src Port' be? Pick either a specific port, or any
-
-11. For router s4, what should the value of the 'Dst Port' be? Pick either a specific port, or any
-
-12. For router s4, what should the value of the 'IP Proto' be? Pick either TCP, UDP, or any
-
-13. For router s4, what should the action of the rule be? Some examples include forward, allow, deny, etc
-
-14. For router s4, what interface should the packets be forwarded to?
-
-#### **SOLUTION**
-
-(Q1-Q7) Rule 1. | IP_Src=128.122/16, IP_Dst=128.119/16, Src_Port=Any, Dst_Port=Any, IP_Protocol=Any, Action=Forward(1) |
-
-(Q8-Q14) Rule 2. | IP_Src=128.122/16, IP_Dst=128.119/16, Src_Port=Any, Dst_Port=Any, IP_Protocol=Any, Action=Forward(2) |
-
-## ****CHAPTER 5: NETWORK LAYER: CONTROL PLANE****
-
-### ****DIJKSTRA'S LINK STATE ALGORITHM (FOR COMPUTING LEAST COST PATHS)****
+### Dijkstra's Link State Algorithm
 
 ![Untitled](img/interactive2/Untitled%206.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the shortest distance to node v and what node is its predecessor? Write your answer as n,p
+1. From source u, give the shortest distance and predecessor for v, y, and x.
 
-2. What is the shortest distance to node y and what node is its predecessor? Write your answer as n,p
+#### Focused Solutions
 
-3. What is the shortest distance to node x and what node is its predecessor? Write your answer as n,p
+1. Results:
+   - v: 6,u
+   - y: 10,w
+   - x: 5,u
 
-#### **SOLUTION**
+---
 
-1. The minimum distance from node u to node v is 6, and node v's predecessor is node u. The full answer was: 6,u
-
-2. The minimum distance from node u to node y is 10, and node y's predecessor is node w. The full answer was: 10,w
-
-3. The minimum distance from node u to node x is 5, and node x's predecessor is node u. The full answer was: 5,u
-
-### ****DIJKSTRA'S LINK STATE ALGORITHM - ADVANCED****
+### Dijkstra's Link State Algorithm - Advanced
 
 ![Untitled](img/interactive2/Untitled%207.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. For link X, what is the cost associated with this link? If the answer can't be determined given the information, respond with 'n/a'
+1. Compute the unknown link costs X and Y, or write n/a if not determinable.
 
-2. For link Y, what is the cost associated with this link? If the answer can't be determined given the information, respond with 'n/a'
+#### Focused Solutions
 
-#### **SOLUTION**
+1. X = 9. Y = 5.
 
-1. The prior node in the path to V is W, and we know the shortest distance of both V (12) and W (3), so 12 - 3 = 9 which is X.
+---
 
-2. The prior node in the path to U is W, and we know the shortest distance of both U (8) and W (3), so 8 - 3 = 5 which is Y.
-
-### ****BELLMAN FORD DISTANCE VECTOR ALGORITHM****
+### Bellman-Ford Distance Vector Algorithm
 
 ![Untitled](img/interactive2/Untitled%208.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. When the algorithm converges, what are the distance vectors from router 'U' to all routers? Write your answer as u,v,w,x,y
+1. Give router U's converged distance vector.
+2. Give router X's initial distance vector.
+3. Name the problem that occurs when link costs increase.
 
-2. What are the initial distance vectors for router 'X'? Write your answer as u,v,w,x,y and if a distance is ∞, write 'x'
+#### Focused Solutions
 
-3. The phrase 'Good news travels fast' is very applicable to distance vector routing when link costs decrease; what is the name of the problem that can occur when link costs increase?
+1. U converged vector (u,v,w,x,y) = 0,4,8,5,10.
+2. X initial vector (u,v,w,x,y) = x,1,3,0,5.
+3. Count-to-infinity problem.
 
-#### **SOLUTION**
+---
 
-1. When the algorithm converges, router U has distance vectors (u,v,w,x,y) = (0,4,8,5,10)
+## Chapter 6: Link Layer
 
-2. The initial distance vectors of router X are: (u,v,w,x,y) = (x,1,3,0,5) where x is ∞
-
-3. It is called the 'Count to Infinity' problem.
-
-## ****CHAPTER 6: LINK LAYER****
-
-### ****ERROR DETECTION AND CORRECTION: TWO DIMENSIONAL PARITY****
+### Error Detection and Correction: Two-Dimensional Parity
 
 ![Untitled](img/interactive2/Untitled%209.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. For figure 1, compute the two-dimensional parity bits for the 16 columns. Combine the bits into one string
+1. For figure 1, compute the column parity string, row parity string, and final parity bit.
+2. For figure 2, locate the flipped bit.
+3. For figure 3, decide whether the bit errors can be detected and corrected.
 
-2. For figure 1, compute the two-dimensional parity bits for the 5 rows (starting from the top). Combine the bits into one string
+#### Focused Solutions
 
-3. For figure 1, compute the parity bit for the parity bit row from question 1. Assume that the result should be even.
+1. Column parity = 1101011011000100. Row parity = 10001. Final parity bit = 0.
+2. Flipped bit = 3,4.
+3. Yes, a single flipped bit can be detected and corrected with 2D parity.
 
-4. For figure 2, indicate the row and column with the flipped bit (format as: x,y), assuming the top-left bit is 0,0
+---
 
-5. For figure 3, is it possible to detect and correct the bit flips? Yes or No
-
-#### **SOLUTION**
-
-The full solution for figure 1 is shown below:
-
-10010100 00110101 1
-
-00110100 11110010 0
-
-00111110 10001001 0
-
-01011011 10001100 0
-
-00010011 00000110 1
-
-11010110 11000100 0
-
-1. The parity bits for the 16 columns is: 11010110 11000100
-
-2. The parity bits for the 5 rows is: 10001
-
-3. The parity bit for the parity row is: 0
-
-4. The bit that was flipped in figure 2 is (3,4):
-
-10010001 10110111 1
-
-11100000 10001010 0
-
-00011000 10010001 1
-
-00110001 10010010 0
-
-11101011 01111010 0
-
-10100011 01000100 0
-
-For figure 3, the bit that was flipped is (11,3):
-
-00100001 01010011 0
-
-11101101 10011010 0
-
-01011101 01010111 0
-
-11110101 00100110 0
-
-00100001 11011101 0
-
-01000101 01110101 0
-
-5. Yes, with 2D parity, you can detect and correct the a single flipped bit
-
-### **ERROR DETECTION AND CORRECTION: CYCLIC REDUNDANCY CHECK**
+### Error Detection and Correction: Cyclic Redundancy Check
 
 Consider the Cyclic Redundancy Check (CRC) algorithm discussed in Section 6.2.3 of the text. Suppose that the 4-bit generator (G) is 1001, that the data payload (D) is 10011101 and that r = 3.
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What are the CRC bits (R) associated with the data payload D, given that r = 3?
+1. Compute the CRC remainder R for D = 10011101, G = 1001, and r = 3.
 
-#### **SOLUTION**
+#### Focused Solutions
 
-To compute the CRC, we begin by taking the value of D, 10011101, and multiplying it by 2^3, giving 10011101000. We then divide this number by the generator bits [G] = 1001, using modulo-2 arithmetic. The final remainder, R, after this division are then the CRC bits. Here is that calculation:
+1. R = 100.
 
-![Untitled](img/interactive2/Untitled%2010.png)
+---
 
-We've computed the remainder as R = 100 and the quotient n = 10001100. You should verify that n*G XOR R is indeed equal to 10011101000. You can use [this calculator](http://www.ee.unb.ca/cgi-bin/tervo/calc.pl) to do the modulo-2 arithmetic if you don't want to do it by hand.
-
-### **RANDOM ACCESS PROTOCOLS: ALOHA**
+### Random Access Protocols: ALOHA
 
 Assume that there are 3 active nodes, each of which has an infinite supply of frames they want to transmit, and these frames have a constant size of L bits. If two or more frames collide, then all nodes will detect the collision.
 
@@ -1676,196 +789,101 @@ There are two versions of the Aloha protocol: Slotted and Pure. In this problem 
 
 Please round all answers to 2 decimal places
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. Given a probability of transmission p = 0.21, what is the maximum efficiency?
+1. For N = 3, compute pure ALOHA and slotted ALOHA efficiency for p = 0.21 and p = 0.74.
 
-2. Given a probability of transmission p = 0.74, what is the maximum efficiency?
+#### Focused Solutions
 
-#### **SOLUTION (Pure Method)**
+1. Efficiencies:
+   - Pure ALOHA, p=0.21: 0.25
+   - Pure ALOHA, p=0.74: 0.01
+   - Slotted ALOHA, p=0.21: 0.39
+   - Slotted ALOHA, p=0.74: 0.15
 
-1. The efficiency given p = 0.21 is: Np(1 - p)^2(N - 1) = 3 * 0.21 * (1 - 0.21)^2(3 - 1) = 0.25 or 25% efficiency.
+---
 
-2. The efficiency given p = 0.74 is: Np(1 - p)^2(N - 1) = 3 * 0.74 * (1 - 0.74)^2(3 - 1) = 0.01 or 1% efficiency.
-
-#### **SOLUTION (Slotted Method)**
-
-1. The efficiency given p = 0.21 is: Np(1 - p)^(N - 1) = 3 * 0.21 * (1 - 0.21)^(3 - 1) = 0.39 or 39% efficiency.
-
-2. The efficiency given p = 0.74 is: Np(1 - p)^(N - 1) = 3 * 0.74 * (1 - 0.74)^(3 - 1) = 0.15 or 15% efficiency.
-
-### ****MULTIPLE ACCESS PROTOCOLS: COLLISIONS****
+### Multiple Access Protocols: Collisions
 
 ![Untitled](img/interactive2/Untitled%2011.png)
 
-#### **QUESTION LIST 1**
+#### Focused Questions
 
-1. Suppose all nodes are implementing the Aloha protocol. For each message, indicate the time at which each transmission begins. Separate each value with a comma and no spaces.
+1. For ALOHA and slotted ALOHA, give transmission start times and successful frames.
+2. For CSMA without collision detection, give start times and successful frames.
+3. For CSMA/CD, give start times, successful frames, and stop times for collided packets.
 
-2. Which messages transmit successfully? Write your answer as a comma seperated list with no spaces using the messages' numbers
+#### Focused Solutions
 
-#### **SOLUTION (Aloha)**
+1. ALOHA:
+   - Times: 0.2,0.9,1.4,1.5,1.8,2.2,2.5,2.9,3.2,4.9
+   - Successful frames: 10  
+   Slotted ALOHA:
+   - Times: 1,1,2,2,2,3,3,3,4,5
+   - Successful frames: 9,10
+2. CSMA:
+   - Times: 0.2,s,s,s,1.8,s,s,s,3.2,4.9
+   - Successful frames: 1,5,9,10
+3. CSMA/CD:
+   - Times: 0.2,s,s,s,1.8,s,s,s,3.2,4.9
+   - Successful frames: 1,5,9,10
+   - Stop times: x,x,x,x,x,x,x,x,x,x
 
-1. The list of times for frame transmissions is: 0.2,0.9,1.4,1.5,1.8,2.2,2.5,2.9,3.2,4.9
+---
 
-2. The list of successful frames is: 10
-
-#### **SOLUTION (Slotted-Aloha)**
-
-1. The list of times for frame transmissions is: 1,1,2,2,2,3,3,3,4,5
-
-2. The list of successful frames is: 9,10
-
-#### **QUESTION LIST 2**
-
-1. Suppose all nodes are implementing Carrier Sense Multiple Access (CSMA), but without collision detection. Suppose that the time from when a message transmission begins until it is beginning to be received at other nodes is 0.4 time units. (Thus if a node begins transmitting a message at t=2.0 and transmits that message until t=3.0, then any node performing carrier sensing in the interval [2.4, 3.4] will sense the channel busy.) For each message, indicate the time at which each message transmission begins, or indicate that message transmission does not begin due to a channel that is sensed busy when that message arrives. Separate each value with a comma and no spaces, and if the channel is sensed busy, substitute it with 's'
-
-2. Which messages transmitted successfully? Write your answer as a comma seperated list with no spaces using the messages' numbers
-
-#### **SOLUTION (CSMA)**
-
-1. The list of times for frame transmissions is: 0.2,s,s,s,1.8,s,s,s,3.2,4.9
-
-2. The list of successful frames is: 1,5,9,10
-
-#### **QUESTION LIST 3**
-
-1. Suppose all nodes are implementing Carrier Sense Multiple Access (CSMA), with collision detection (CSMA/CD). Suppose that the time from when a message transmission begins until it is beginning to be received at other nodes is 0.4 time units, and assume that a node can stop transmission instantaneously when a message collision is detected. (Thus if a node begins transmitting a message at t=2.0 and transmits that message until t=3.0, then any node performing carrier sensing in the interval [2.4, 3.4] will sense the channel busy.) For each message, indicate the time at which each message transmission begins, or indicate that message transmission does not begin due to a channel that is sensed busy when that message arrives. Separate each value with a comma and no spaces, and if the channel is sensed busy, substitute it with 's'
-
-2. Which messages transmitted successfully? Write your answer as a comma seperated list with no spaces using the messages' numbers
-
-3. At what time did each message stop transmitting due to a collision. Write your answer as a comma seperated list with no spaces using the messages' numbers in order, and if a message didn't stop, write 'x' for that message
-
-#### **SOLUTION (CSMA-CD)**
-
-1. The list of times for frame transmissions is: 0.2,s,s,s,1.8,s,s,s,3.2,4.9
-
-2. The list of successful frames is: 1,5,9,10
-
-3. The list of stopped packet times is: x,x,x,x,x,x,x,x,x,x
-
-### ****LINK LAYER (AND NETWORK LAYER) ADDRESSING AND FORWARDING****
+### Link Layer and Network Layer Addressing and Forwarding
 
 ![Untitled](img/interactive2/Untitled%2012.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. What is the source mac address at point 6?
+1. At point 6, give source MAC, destination MAC, source IP, and destination IP.
+2. Explain whether MAC addresses change across point 5.
 
-2. What is the destination mac address at point 6?
+#### Focused Solutions
 
-3. What is the source IP address at point 6?
+1. At point 6:
+   - Source MAC: 90-54-8A-61-C5-F5
+   - Destination MAC: 0E-F7-40-E8-B7-25
+   - Source IP: 128.119.40.206
+   - Destination IP: 128.119.40.64
+2. No. The datagram stays within the subnet, so link-layer forwarding can happen directly.
 
-4. What is the destination IP address at point 6?
+---
 
-5. Do the source and destinaton mac addresses change at point 5? Answer with yes or no.
-
-#### **SOLUTION**
-
-1. The source mac address at point 6 is 90-54-8A-61-C5-F5
-
-2. The destination mac address at point 6 is 0E-F7-40-E8-B7-25
-
-3. The source IP address at point 6 is 128.119.40.206
-
-4. The destination IP address at point 6 is 128.119.40.64
-
-5. No, datagrams can be sent across the subnet via the link layer in one go
-
-### ****LEARNING SWITCHES - BASIC****
+### Learning Switches - Basic
 
 ![Untitled](img/interactive2/Untitled%2013.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. At t=1, what is the source entry for switch 1? Format your answer as letter,number or 'n/a'
+1. For t = 1 through t = 4, summarize which new switch-table entries are learned by switch 1 and switch 2.
 
-2. At t=1, what is the destination entry for switch 1? Format your answer as letter,number or 'n/a'
+#### Focused Solutions
 
-3. At t=1, what is the source entry for switch 2? Format your answer as letter,number or 'n/a'
+1. Learned entries:
+   - t=1: switch 1 learns C,3 and B,2; switch 2 learns C,8
+   - t=2: switch 1 learns H,7 and D,4; switch 2 learns H,11 and D,8
+   - t=3: switch 1 learns A,1; switch 2 observes no new useful entry
+   - t=4: switch 1 observes nothing; switch 2 learns K,14
 
-4. At t=1, what is the destination entry for switch 2? Format your answer as letter,number or 'n/a'
+---
 
-5. At t=2, what is the source entry for switch 1? Format your answer as letter,number or 'n/a'
-
-6. At t=2, what is the destination entry for switch 1? Format your answer as letter,number or 'n/a'
-
-7. At t=2, what is the source entry for switch 2? Format your answer as letter,number or 'n/a'
-
-8. At t=2, what is the destination entry for switch 2? Format your answer as letter,number or 'n/a'
-
-9. At t=3, what is the source entry for switch 1? Format your answer as letter,number or 'n/a'
-
-10. At t=3, what is the destination entry for switch 1? Format your answer as letter,number or 'n/a'
-
-11. At t=3, what is the source entry for switch 2? Format your answer as letter,number or 'n/a'
-
-12. At t=3, what is the destination entry for switch 2? Format your answer as letter,number or 'n/a'
-
-13. At t=4, what is the source entry for switch 1? Format your answer as letter,number or 'n/a'
-
-14. At t=4, what is the destination entry for switch 1? Format your answer as letter,number or 'n/a'
-
-15. At t=4, what is the source entry for switch 2? Format your answer as letter,number or 'n/a'
-
-16. At t=4, what is the destination entry for switch 2? Format your answer as letter,number or 'n/a'
-
-#### **SOLUTION**
-
-1. At time t=1, (C,3) is added as an entry to switch table 1.
-
-2. At time t=1, (B,2) is added as an entry to switch table 1.
-
-3. At time t=1, (C,8) is added as an entry to switch table 2.
-
-4. At time t=1, switch table 2 doesn't observe this frame
-
-5. At time t=2, (H,7) is added as an entry to switch table 1.
-
-6. At time t=2, (D,4) is added as an entry to switch table 1.
-
-7. At time t=2, (H,11) is added as an entry to switch table 2.
-
-8. At time t=2, (D,8) is added as an entry to switch table 2.
-
-9. At time t=3, (A,1) is added as an entry to switch table 1.
-
-10. At time t=3, since the entry for computer B in switch table 1 already exists, no new table entry is made
-
-11. At time t=3, switch table 2 doesn't observe this frame
-
-11. At time t=3, (n/a) is added as an entry to switch table 2.
-
-12. At time t=3, switch table 2 doesn't observe this frame
-
-13. At time t=4, switch table 1 doesn't observe this frame
-
-14. At time t=4, switch table 1 doesn't observe this frame
-
-15. At time t=4, (K,14) is added as an entry to switch table 2.
-
-16. At time t=4, since the entry for computer H in switch table 2 already exists, no new table entry is made
-
-### ****LEARNING SWITCHES - ADVANCED****
+### Learning Switches - Advanced
 
 ![Untitled](img/interactive2/Untitled%2014.png)
 
-#### **QUESTION LIST**
+#### Focused Questions
 
-1. At t=2, what two nodes communicated? Write your answer in alphabetical order as x,y (If there is only enough information for 1 node, write that, and if there's no information, write 'n/a')
+1. For t = 1, 2, 5, and 7, identify the communicating nodes where enough information is available.
 
-2. At t=5, what two nodes communicated? Write your answer in alphabetical order as x,y (If there is only enough information for 1 node, write that, and if there's no information, write 'n/a')
+#### Focused Solutions
 
-3. At t=1, what two nodes communicated? Write your answer in alphabetical order as x,y (If there is only enough information for 1 node, write that, and if there's no information, write 'n/a')
+1. Results:
+   - t=1: L
+   - t=2: n/a
+   - t=5: K,L
+   - t=7: D,G
 
-4. At t=7, what two nodes communicated? Write your answer in alphabetical order as x,y (If there is only enough information for 1 node, write that, and if there's no information, write 'n/a')
+---
 
-#### **SOLUTION**
-
-1. The transmission at t=2 was I-->L, so the answer is n/a.
-
-2. The transmission at t=5 was K-->L, so the answer is K,L.
-
-3. The transmission at t=1 was L-->K, so the answer is L.
-
-4. The transmission at t=7 was G-->D, so the answer is D,G.
